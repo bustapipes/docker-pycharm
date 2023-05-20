@@ -1,4 +1,4 @@
-FROM --platform=${TARGETPLATFORM} ubuntu:latest
+FROM --platform=${TARGETPLATFORM} ubuntu:focal
 
 ARG TARGETARCH
 
@@ -6,13 +6,18 @@ LABEL maintainer "Busta Pipes <busta.pipes@gmail.com>"
 
 ARG docker_pycharm_version=1
 
+ARG DEBIAN_FRONTEND=noninteractive
+ARG TZ=Etc/UTC
+
 RUN apt-get update && apt-get install --no-install-recommends -y \
   python3 python3-dev python3-setuptools python3-pip \
   gcc git openssh-client less curl \
   libxtst-dev libxext-dev libxrender-dev libfreetype6-dev \
-  libfontconfig1 libgtk2.0-0 libxslt1.1 libxxf86vm1 zsh \
+  libfontconfig1 libgtk2.0-0 libxslt1.1 libxxf86vm1 \
+  g++ \
+  zsh \
   && rm -rf /var/lib/apt/lists/* \
-  && useradd -ms /bin/bash developer
+  && useradd -ms /bin/zsh developer
 
 ARG PYCHARM_VERSION=2022.3.3
 ARG PYCHARM_BUILD=2022.3.3
